@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<!-- 
+    Num2Word - Convert Numbers to Words
+    Copyright © 2023 Zain Arif. All rights reserved.
+    Trademark ™ Num2Word
+-->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Num2World</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fira-code@5.2.0/distr/fira_code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&display=swap">
+  <link rel="stylesheet" href="Num2Word-Style.css" />
+</head>
+
+<body>
+  <h1>Num2Word: Convert Numbers to Words</h1>
+  
+  <div class="input-box" style="text-align: center">
+    <!-- <label for="numberInput">Enter any number:</label> -->
+    <input type="number" id="numberInput" class="number_input" placeholder="Type a Number...">
+    <!-- Use both "onclick" and "ontouchend" attributes -->
+    <button id="enterButton" class="btn enter">Enter</button>
+  </div>
+
+  <div class="output-box" id="output" style="text-align: center">
+    <!-- Output will be displayed here -->
+    <div class="wrapper">
+      <span class="typing-demo" id="typingOutput"></span>
+    </div>
+  </div>
+
+  <div class="separator"></div> <!-- Separating line -->
+
+  <h3> CSS Live Edit</h3>
+
+  <div class="css-box" contenteditable id="codeBox" rows="10" cols="50">
+    <style contenteditable 
+      style="display: block; 
+      white-space: pre;">
+      h1, h3{
+        font-family: 'Montserrat', sans-serif;
+      }
+
+      html, body {
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom right, #AAC9CE, #F3DBCF);
+      }
+
+      .input-box {
+        margin-top: 30px;
+      }
+
+      /* Styling for the separating line */
+      .separator {
+        width: 50%;
+        margin: 40px auto;
+        height: 3px;
+        background-color: #9BAEB3;
+        border-radius: 10px;
+      }
+
+      /* Styling for the CSS Live Edit Box*/
+      .css-box {
+        font-size: 10px;
+        font-family: "Fira Code", monospace;
+        border: 4px solid #3B3F42;
+        border-radius: 10px;
+        width: 50%;
+        margin: -60px auto 20px auto;
+        flex-grow: 1; /* Allow the box to expand as the content inside grows */
+        padding: 15px 10px; /* Remove height and margin, and use padding for spacing */
+        max-height: 75vh; /* Set a maximum height to prevent content from flowing out */
+        overflow-y: auto; /* Enable vertical scrolling within the box if needed */
+      }
+    </style>
+  </div>
+
+  <script>
+    // Function to convert a number to words
+    function numberToWords(number) {
+    // Arrays for holding words for single digits, two digits, tens, and thousands
+	  const singleDigits = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+	  const twoDigits = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+	  const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+	  const thousands = ['', 'Thousand', 'Million', 'Billion', 'Trillion', 'Quadrillion'];
+
+    // If the number is zero, return 'Zero'
+	  if (number === 0) {
+		return 'Zero';
+	  }
+
+    let words = ''; // Variable to hold the words for the number
+        let i = 0; // Index for the thousands array
+        // Convert the number to words in groups of three digits (thousands)
+        while (number > 0) {
+            if (number % 1000 !== 0) {
+                let tempWords = ''; // Temporary variable to hold words for the current group of three digits
+                let num = number % 1000; // Get the last three digits of the number
+                // Handling the hundreds place
+                if (num >= 100) {
+                    tempWords += singleDigits[Math.floor(num / 100)] + ' Hundred';
+                    num %= 100;
+                    if (num > 0) {
+                        tempWords += ' and ';
+                    }
+                }
+                // Handling the numbers from 10 to 19
+                if (num >= 10 && num <= 19) {
+                    tempWords += twoDigits[num - 10];
+                    num = 0;
+                } else if (num >= 20) { // Handling the numbers from 20 to 99
+                    tempWords += tens[Math.floor(num / 10)];
+                    num %= 10;
+                    if (num > 0) {
+                        tempWords += ' ';
+                    }
+                }
+                // Handling the single digits
+                if (num > 0) {
+                    tempWords += singleDigits[num];
+                }
+                // Concatenate the words for this group of three digits with the appropriate thousands word
+                words = tempWords + ' ' + thousands[i] + ' ' + words;
+            }
+            // Move on to the next group of three digits (thousands)
+            number = Math.floor(number / 1000);
+            i++;
+        }
+
+        return words.trim(); // Remove leading/trailing spaces and return the result
+    }
+
+    // Flag to check if the function has been called on touch
+    let touchCalled = false;
+
+    // Function to convert user input to words and display the result
+    // Function to convert user input to words and display the result
+    function convertNumberToWords() {
+      const userInput = parseInt(document.getElementById('numberInput').value);
+      const result = numberToWords(userInput);
+
+      const outputBox = document.getElementById('typingOutput');
+      outputBox.textContent = ""; // Clear the previous content
+      outputBox.style.fontSize = "2em"; // Set initial font size for the output container
+      outputBox.scrollLeft = 0; // Reset scroll position to the beginning
+
+      // Set the width of the output container based on the length of the result
+      outputBox.style.width = "auto";
+      outputBox.style.maxWidth = "100%";
+
+      let currentIndex = 0;
+      const typingAnimation = setInterval(() => {
+        if (currentIndex < result.length) {
+          outputBox.textContent += result.charAt(currentIndex);
+          currentIndex++;
+        } else {
+          clearInterval(typingAnimation); // Stop the animation when finished
+          enableEnterButton(); // Enable the "Enter" button after the animation is done
+        }
+      }, 100); // Adjust the animation speed here (lower value means faster typing)
+    }
+
+    // Function to handle both click and touch events
+    function enterButtonClicked() {
+      const outputBox = document.getElementById('typingOutput');
+      if ('ontouchstart' in window) {
+        // For touch events, remove the animation completely
+        outputBox.style.animation = 'none';
+      }
+      disableEnterButton(); // Disable the "Enter" button during the animation
+      convertNumberToWords(); // Call the function to perform the conversion
+    }
+
+      // Function to disable the "Enter" button
+      function disableEnterButton() {
+        const enterButton = document.getElementById('enterButton');
+        enterButton.disabled = true;
+      }
+      // Function to enable the "Enter" button
+      function enableEnterButton() {
+        const enterButton = document.getElementById('enterButton');
+        enterButton.disabled = false;
+      }
+
+    // Event listener for both click and touch
+    document.getElementById('enterButton').addEventListener('click', enterButtonClicked);
+    document.getElementById('enterButton').addEventListener('touchend', enterButtonClicked);
+
+    // Event listener for handling indentation with the "Tab" key within the css-box
+    document.getElementById('codeBox').addEventListener('keydown', function(e) {
+      if (e.key == 'Tab') {
+        e.preventDefault();
+        var start = this.selectionStart;
+        var end = this.selectionEnd;
+        // Set textarea value to: text before caret + tab + text after caret
+        this.value = this.value.substring(0, start) +
+          "\t" + this.value.substring(end);
+        // Put caret at the right position again
+        this.selectionStart = this.selectionEnd = start + 1;
+      }
+    });
+  </script>
+  
+</body>
+</html>

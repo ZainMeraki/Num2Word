@@ -1,0 +1,334 @@
+
+
+/* 
+Num2Word - Convert Numbers to Words
+Copyright © 2023 Zain Arif. All rights reserved.
+Trademark ™ Num2Word 
+*/
+
+
+
+/* Adjust the scrollbar styles */
+::-webkit-scrollbar {
+  width: 0.5em;
+  height: 0.5em;
+}
+
+/* Set the scrollbar track color for the entire website */
+::-webkit-scrollbar-track {
+  /* Use a slightly lighter shade of the background color */
+  background: linear-gradient(to bottom right, #D9E6E8, #F9E3D3);
+}
+
+/* Set the scrollbar thumb color for the entire website */
+::-webkit-scrollbar-thumb {
+  /* Use a darker shade of the background color */
+  background-color: #395c62;
+  border-radius: 6px;
+}
+
+/* Set the scrollbar thumb color when hovering for the entire website */
+::-webkit-scrollbar-thumb:hover {
+  /* Use a slightly darker shade than the thumb color */
+  background-color: #2a4348;
+}
+
+
+/* Button + Text Formatting | Start*/
+:root {
+  --primary-light: #8abdff;
+  --primary: #6d5dfc;
+  --primary-dark: #5b0eeb;
+  
+  --white: #FFFFFF;
+  --greyLight-1: #E4EBF5;
+  --greyLight-2: #c8d0e7;
+  --greyLight-3: #bec8e4;
+  --greyDark: #9baacf;
+}
+
+.btn {
+  width: 4.5rem;
+  height: 1.5rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(to bottom right, #AAC9CE, #F3DBCF);
+  box-shadow: 0.3rem 0.3rem 0.6rem rgba(0, 0, 0, 0.3), 
+              -.2rem -.2rem 0.5rem var(--white);
+  border: none; /* Removed the border */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: .3s ease;
+  grid-column: 1 / 2;
+  grid-row: 5 / 6;
+  color: var(--greyDark);
+}
+
+.btn:hover {
+  color: var(--primary);
+}
+
+.btn:active {
+  box-shadow: inset 0.2rem 0.2rem 0.5rem rgba(0, 0, 0, 0.3), 
+              inset -.02rem -0.2rem 0.5rem var(--white);
+}
+
+.input-box {
+  grid-column: 3 / 4;
+  grid-row: 3 / 4;
+}
+
+.number_input {
+  width: 12rem;
+  height: 1.7rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.0rem;
+  padding-left: 1.2rem;
+  box-shadow: inset 0.8rem 0.2rem 0.5rem rgba(170, 201, 206, 0.7), 
+              inset -0.2rem -0.2rem 0.5rem var(--white);
+  background: none;
+  font-family: inherit;
+  color: var(--greyDark);
+}
+
+.number_input::placeholder {
+  color: rgba(90, 110, 120, 0.65); /* Placeholder text color */
+}
+
+.number_input:focus {
+  outline: none;
+  box-shadow: 0.3rem 0.3rem 0.6rem rgba(170, 201, 206, 0.7),
+              -0.2rem -0.2rem 0.5rem var(--white);
+}
+
+/* Button + Text Formatting | End*/
+
+h1, h3{
+  text-align: center;
+}
+
+h1 {
+  margin-top: 70px;
+}
+
+h3 {
+  margin: 70px
+}
+
+.wrapper {
+  height: 20px;
+  /* This part is important for centering */
+  display: grid;
+  place-items: center;
+}
+
+.typing-demo {
+  width: 22ch;
+  animation: typing 2s steps(22), blink .5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: monospace;
+  font-size: 2em;
+}
+
+
+
+
+
+
+
+
+
+
+/* This media query is for screen widths up to 480 pixels (Smartphone size) */
+@media only screen and (max-width: 480px) {
+  .output-box {
+    white-space: pre-wrap; /* Allow word wrapping */
+    font-size: 1.1em; /* Adjust font size for better readability on small screens */
+    min-height: 1em; /* Set the minimum height of the output box */
+    height: 200px;
+    margin-top: 30px;
+    font-weight: bold;
+    display: flex; /* Use flexbox to allow the elements inside to expand properly */
+    align-items: center; /* Center the elements horizontally */
+    flex-grow: 1; /* Allow the box to expand as the content inside grows */
+    max-height: 75vh; /* Set a maximum height to prevent content from flowing out */
+    overflow-y: scroll; /* Enable vertical scrolling within the output box if needed */
+  }
+
+  /* Ensures that the output box occupies the full width and wraps text to the next line */
+  .wrapper {
+    height: 200px;
+    width: 100%;
+    overflow-y: auto;
+  }
+
+  .typing-demo {
+    max-height: 100%;
+    display: inline-block; /* Display as inline-block to wrap text */
+    width: 100%; /* Set a width to allow text wrapping */
+    font-size: 2em; /* Set the initial font size */
+    white-space: pre-wrap; /* Allow word wrapping */
+    overflow-y: auto;
+  }
+
+  /* CSS animation for the typing effect */
+  @keyframes typing {
+    from { width: 0; }
+  }
+
+  .typing-demo::after {
+    content: '';
+    display: inline-block;
+    vertical-align: bottom;
+    width: 100%;
+    height: 100%;
+    animation: typing 5s steps(22), blink .5s step-end infinite alternate;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+/* Media query for screen widths up to 768 pixels (Tablets and Mobile devices) */
+@media only screen and (max-width: 768px) {
+  h1 {
+    margin-top: 40px;
+    margin-bottom: 15px;
+    font-size: 22px;
+  }
+
+  h3 {
+    margin: 30px auto 80px auto;
+    font-size: 16px;
+  }
+
+  .wrapper {
+    height: 15px;
+  }
+
+  .typing-demo {
+    width: 15ch;
+    font-size: 1.5em;
+  }
+
+  .separator {
+    width: 60%;
+    margin: 20px auto;
+    height: 2px;
+  }
+
+  .input-box {
+    margin-top: 20px;
+  }
+
+  .output-box {
+    margin-top: 20px;
+    font-weight: normal;
+    font-size: 60%;
+  }
+
+  .css-box {
+    font-size: 8px;
+    width: 70%;
+    margin: -40px auto 10px auto;
+    padding: 10px 5px 10px 5px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+/* Media query for screen widths greater than 768 pixels (Desktops and Laptops) */
+@media only screen and (min-width: 769px) {
+  h1 {
+    margin-top: 70px;
+    margin-bottom: 43px;
+    font-size: 27px;
+  }
+
+  h3 {
+    margin: 70px;
+    font-size: 23px;
+  }
+
+  /* This section is to enable scrolling for .typing-demo on smaller screens */
+  .output-box {
+    white-space: pre-wrap; /* Allow word wrapping */
+    font-size: 1.0em; /* Adjust font size for better readability */
+    min-height: 1em; /* Set the minimum height of the output box */
+    height: 200px;
+    margin-top: 30px;
+    font-weight: bold;
+    display: flex; /* Use flexbox to allow the elements inside to expand properly */
+    align-items: center; /* Center the elements horizontally */
+    flex-grow: 1; /* Allow the box to expand as the content inside grows */
+    max-height: 75vh; /* Set a maximum height to prevent content from flowing out */
+    overflow-y: auto; /* Enable vertical scrolling within the output box if needed */
+    width: 100%; /* Set the output box to occupy the full width of its parent */
+    display: flex; /* Use flexbox to center .wrapper */
+    justify-content: center; /* Center .wrapper horizontally */
+  }
+
+  /* Ensures that the output box occupies the full width and wraps text to the next line */
+  .wrapper {
+    height: 200px;
+    width: 65%;
+    overflow-y: auto;
+    align-items: center; /* Center the elements horizontally */
+  }
+
+  .typing-demo {
+    max-height: 100%;
+    display: inline-block; /* Display as inline-block to wrap text */
+    width: 100%; /* Set a width to allow text wrapping */
+    font-size: 1.5em; /* Set the initial font size */
+    white-space: pre-wrap; /* Allow word wrapping */
+    text-align: center; /* Add this line to center the text inside .typing-demo */
+    overflow-y: auto;
+  }
+
+  /* New CSS animation for the typing effect */
+  @keyframes typing {
+    from { width: 0; }
+  }
+
+  .typing-demo::after {
+    content: '';
+    display: inline-block;
+    vertical-align: bottom;
+    width: 100%;
+    height: 100%;
+    animation: typing 5s steps(22), blink .5s step-end infinite alternate;
+  }
+
+  .separator {
+    width: 50%;
+    margin: 40px auto;
+    height: 3px;
+  }
+
+  .input-box {
+    margin-top: 30px;
+  }
+
+  .css-box {
+    font-size: 10px;
+    width: 50%;
+    margin: -60px auto 20px auto;
+    padding: 15px 10px 15px 10px;
+  }
+}
